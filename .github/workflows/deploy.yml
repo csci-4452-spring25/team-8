@@ -3,7 +3,7 @@ name: Deploy to Server via SSH
 on:
   push:
     branches:
-      - main  # or your deployment branch
+      - main
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build app
         run: npm run build
@@ -37,7 +37,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: |
           script: |
             cd ~/umami
             npm install --omit=dev
