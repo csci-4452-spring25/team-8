@@ -9,5 +9,5 @@ jobs:
         run: docker build . --file Dockerfile --tag umami-image
       - name: Push image to Docker hub
         run: |
-	  docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-	  docker push umami-image
+          docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push umami-image
