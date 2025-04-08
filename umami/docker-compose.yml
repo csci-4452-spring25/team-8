@@ -1,7 +1,8 @@
 ---
 services:
   umami:
-    image: ghcr.io/umami-software/umami:postgresql-latest
+    #image: ghcr.io/umami-software/umami:postgresql-latest
+    image: umami:latest
     ports:
       - "3000:3000"
     environment:
