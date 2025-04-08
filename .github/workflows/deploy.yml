@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+  labels:
+    app: umami
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: umami
+  template:
+    metadata:
+      labels:
+        app: umami
+    spec:
+      containers:
+        - name: umami
+          image: ghcr.io/umami-software/umami:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: umami-config
+            - secretRef:
+                name: umami-secrets
+          volumeMounts:
+            - name: umami-cache
+              mountPath: /app/.next/cache
+      volumes:
+        - name: umami-cache
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: umami-service
+spec:
+  selector:
+    app: umami
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
