@@ -15,7 +15,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY docker/middleware.js ./src
 
-ARG DATABASE_TYPE
+ARG DATABASE_TYPE=postgres
 ARG BASE_PATH
 
 ENV DATABASE_TYPE $DATABASE_TYPE
