@@ -1,11 +1,13 @@
 on:
-  push:
-    branches:
-      - main
+  workflow-dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Build the Docker image
-        run: 
+        run: docker build . --file Dockerfile --tag umami-image
+      - name: Push image to Docker hub
+        run: |
+	  docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+	  docker push umami-image
