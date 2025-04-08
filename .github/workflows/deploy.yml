@@ -20,7 +20,7 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Copy files to remote server
+      - name: Copy files to server
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -38,7 +38,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+          script: |
             cd ~/umami
-            npm install --production
+            npm install --omit=dev
+            npx prisma generate
             pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
-
