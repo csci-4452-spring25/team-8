@@ -8,8 +8,8 @@ jobs:
       - name: Build the Docker image
         run: |
           cd umami
-          docker build . --file Dockerfile --tag umami-image
+          docker build . --file Dockerfile --tag kadonne55/cloud_computing:latest
       - name: Push image to Docker hub
         run: |
           docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push umami-image
+          docker push kadonne55/cloud_computing:latest
