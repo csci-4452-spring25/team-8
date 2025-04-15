@@ -24,5 +24,6 @@ jobs:
       - name: Build Terraform
         run: |
           cd ..
+          cd terraform
           terraform init
           terraform apply -auto-approve
