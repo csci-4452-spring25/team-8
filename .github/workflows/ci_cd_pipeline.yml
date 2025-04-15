@@ -24,6 +24,6 @@ jobs:
       - name: Build Terraform
         run: |
           pwd
-	  ls
+          ls
           #terraform init
           #terraform apply -auto-approve
