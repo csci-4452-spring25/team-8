@@ -23,7 +23,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.2
       - name: Build Terraform
         run: |
-          ls
-          cd terraform
           terraform init
           terraform apply -auto-approve
+        work-directory: ./terraform
