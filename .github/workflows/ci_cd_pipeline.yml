@@ -55,7 +55,7 @@ jobs:
 
       - name: Log into EC2 and deploy Docker
         run: |
-	  PUBLIC_IP=$(terraform output -raw public_ip | awk '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ { print $1; exit }')
+          PUBLIC_IP=$(terraform output -raw public_ip | awk '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ { print $1; exit }')
           echo $PUBLIC_IP
           echo "HERE"
           echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
