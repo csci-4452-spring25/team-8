@@ -58,7 +58,7 @@ jobs:
           PUBLIC_IP=$(terraform output -raw public_ip)
           echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
           echo "EC2_PUBLIC_IP=$PUBLIC_IP"
-          ssh -i ${{ secrets.ec2_key.pem }} ubuntu@$EC2_PUBLIC_IP
+          ssh -oStrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ubuntu@$EC2_PUBLIC_IP
           echo "HELLO FROM EC2"
   
   terraform_destroy:
