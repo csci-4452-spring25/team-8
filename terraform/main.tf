@@ -96,3 +96,6 @@ resource "aws_instance" "foo" {
     cpu_credits = "unlimited"
   }
 }
+output "public_ip" {
+  value=aws_instance.foo.public_ip
+}
