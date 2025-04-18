@@ -52,6 +52,14 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve 
+
+      - name: Log into EC2 and deploy Docker
+        run: |
+          PUBLIC_IP=$(terraform output -raw public_ip)
+          echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+          echo "EC2_PUBLIC_IP=$PUBLIC_IP"
+	  ssh -i ${{ secrets.ec2_key.pem }} ubuntu@$EC2_PUBLIC_IP
+	  echo "HELLO FROM EC2"
   
   terraform_destroy:
     name: "Terraform_destroy"
