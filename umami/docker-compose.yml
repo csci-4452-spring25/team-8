@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   umami:
-    image: ghcr.io/umami-software/umami:postgresql-latest
+    image: kadonne55/cloud_computing:latest
     ports:
       - "80:3000"
     environment:
