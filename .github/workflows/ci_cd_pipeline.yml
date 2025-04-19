@@ -68,13 +68,14 @@ jobs:
           PUBLIC_IP=$(terraform output -raw public_ip | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n1)
           echo "$PRIVATE_KEY" > ec2_key.pem
           chmod 600 ec2_key.pem
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$PUBLIC_IP
-          git clone https://github.com/csci-4452-spring25/team-8.git
-          cd team-8/umami
-          sudo apt update
-          sudo apt install docker-compose -y
-          sudo docker-compose up -d
-          sudo docker ps
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$PUBLIC_IP << 'EOF'
+        git clone https://github.com/csci-4452-spring25/team-8.git
+        cd team-8/umami
+        sudo apt update
+        sudo apt install docker-compose -y
+        sudo docker-compose up -d
+        sudo docker ps
+        EOF
           echo "public ip = $PUBLIC_IP"
   
   terraform_destroy:
