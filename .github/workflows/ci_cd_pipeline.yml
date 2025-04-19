@@ -75,8 +75,8 @@ jobs:
             sudo apt install docker-compose -y
             sudo docker-compose up -d
             sudo docker ps
-ENDSSH
-)
+          ENDSSH
+          )
           echo "$ssh_script" | ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$PUBLIC_IP << 'EOF'
           echo "public ip = $PUBLIC_IP"
   
