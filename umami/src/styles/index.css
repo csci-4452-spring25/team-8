@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   flex: 1;
   color: var(--font-color100);
-  background: var(--base50);
+  background: red;
 }
 
 *,
