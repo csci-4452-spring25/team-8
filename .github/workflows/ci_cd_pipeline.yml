@@ -72,7 +72,7 @@ jobs:
           cd team-8/umami
           sudo apt update
           sudo apt install docker-compose -y
-          sudo docker-compose up -d
+          sudo docker-compose up
           sudo docker ps
           echo "public ip = $PUBLIC_IP"
   
