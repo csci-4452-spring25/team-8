@@ -27,6 +27,7 @@ resource "aws_vpc" "ammar_vpc" {
 resource "aws_subnet" "public_subnet" {
   vpc_id     = aws_vpc.ammar_vpc.id
   cidr_block = "10.0.1.0/24"
+  map_public_ip_on_launch = true
   tags = {
     Name = "Ammar's Subnnet"
   }
@@ -53,27 +54,35 @@ resource "aws_route_table_association" "public_rt_ass" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh"
-  description = "Allow SSH inbound traffic and all outbound traffic"
+resource "aws_security_group" "ec2_rules" {
+  name        = "allow_ssh_and_web"
+  description = "Allow SSH and web (port 3000)"
   vpc_id      = aws_vpc.ammar_vpc.id
 
-  tags = {
-    Name = "allow_ssh"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-}
 
-resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
-  security_group_id = aws_security_group.allow_ssh.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 22
-  ip_protocol       = "tcp"
-  to_port           = 22
-}
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-  security_group_id = aws_security_group.allow_ssh.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1" # semantically equivalent to all ports
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ec2-access"
+  }
 }
 
 resource "aws_key_pair" "deployer" {
@@ -82,7 +91,7 @@ resource "aws_key_pair" "deployer" {
 }
 
 resource "aws_instance" "foo" {
-  vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.ec2_rules.id]
   ami                         = "ami-005e54dee72cc1d00" # us-west-2
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public_subnet.id
