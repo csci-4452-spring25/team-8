@@ -70,7 +70,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$PUBLIC_IP
           git clone https://github.com/csci-4452-spring25/team-8.git
           cd team-8/umami
-	  sudo apt update
+          sudo apt update
           sudo apt install docker-compose
           sudo docker-compose -d
           echo "public ip = $PUBLIC_IP"
