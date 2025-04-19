@@ -15,7 +15,7 @@ on:
          - destroy
 jobs:
   build:
-    if: ${{ github.event.inputs.action == 'build image' }}
+    if: ${{ github.event.inputs.docker == 'build image' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
