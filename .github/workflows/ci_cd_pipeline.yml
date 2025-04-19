@@ -1,6 +1,12 @@
 on:
   workflow_dispatch:
     inputs:
+       docker:
+         description: 'Build docker image'
+         type: choice
+         options:
+         - build image
+         - N/A
        action:
          description: 'Terraform apply or destroy'
          type: choice
@@ -9,17 +15,18 @@ on:
          - destroy
 jobs:
   build:
+    if: ${{ github.event.inputs.action == 'build image' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      #- name: Build the Docker image
-        #run: |
-          #cd umami
-          #docker build . --file Dockerfile --tag kadonne55/cloud_computing:latest
-      #- name: Push image to Docker hub
-        #run: |
-          #docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          #docker push kadonne55/cloud_computing:latest
+      - name: Build the Docker image
+        run: |
+          cd umami
+          docker build . --file Dockerfile --tag kadonne55/cloud_computing:latest
+      - name: Push image to Docker hub
+        run: |
+          docker login -u kadonne55 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push kadonne55/cloud_computing:latest
   terraform_apply:
     name: "Terraform_apply"
     if: ${{ github.event.inputs.action == 'apply' }}
@@ -61,10 +68,10 @@ jobs:
           echo "$PRIVATE_KEY" > ec2_key.pem
           chmod 600 ec2_key.pem
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$PUBLIC_IP
-          sudo apt update && sudo apt upgrade
           git clone https://github.com/csci-4452-spring25/team-8.git
           cd team-8/umami
-          sudo apt install docker.io
+	  sudo apt update
+          sudo apt install docker-compose
           sudo docker-compose -d
   
   terraform_destroy:
