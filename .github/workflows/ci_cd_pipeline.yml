@@ -74,7 +74,8 @@ jobs:
           cd team-8/umami
           sleep 1
           sudo apt-get update
-          sudo apt install docker-compose -y
+          sudo apt install docker.io -y
+          sudo systemctl start docker
           sudo docker-compose up -d
           sudo docker ps 
           echo "public ip = $PUBLIC_IP"
