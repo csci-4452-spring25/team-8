@@ -73,8 +73,8 @@ jobs:
           git clone https://github.com/csci-4452-spring25/team-8.git
           cd team-8/umami
           sleep 1
-          sudo apt update
-          sudo apt install docker-compose
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
           sudo docker-compose up -d
           sudo docker ps 
           echo "public ip = $PUBLIC_IP"
